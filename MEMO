@@ -1,0 +1,18 @@
+
+
+shape route  disable
+JSYG.Editor.js
+
+#2680
+2680     show(opt, _preventEvent) {
+2681 
+2682         const node = this.editor._target;
+2683         /*
+2684          if (node.connectors)  {   //GUSA
+2685            if (node.connectors.length > 0)  {
+2686             return;
+2687            }
+2688          }  
+2689         */
+2690         return;
+
