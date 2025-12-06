@@ -13,7 +13,7 @@ import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 import { Connector } from "./JSYG.Connector.js";
 
 import { Path } from "../JSYG.Path/JSYG.Path.js";
-import { ShapeInfo, Intersection, Point2D, Matrix2D} from "kld-intersections";
+import { ShapeInfo, Intersection, Point2D, Matrix2D } from "kld-intersections";
 //import { shape, intersect } from "svg-intersections";
 
 const ctrls = ["Drag", "Resize", "Rotate", "CtrlPoints", "MainPoints"];
@@ -325,44 +325,41 @@ export class Editor extends StdConstruct {
     }
 
     findConnectShape(svg, cid) {
-          document.querySelector("input:checked");
+        document.querySelector("input:checked");
     }
 
     initSVG(svg) {
         //console.log("initSVG",svg);
-	let lines = svg.querySelectorAll("line");
-        console.log("lines",lines.length);
-        for (let i = 0; i < lines.length ; i++) {
-             let f_id = lines[i].getAttributeNS(null, 'from-id' )
-             let t_id = lines[i].getAttributeNS(null, 'to-id' )
-             
-             if ( f_id == null && t_id == null ) return;
-             console.log("conector", f_id, t_id)
+        let lines = svg.querySelectorAll("line");
+        console.log("lines", lines.length);
+        for (let i = 0; i < lines.length; i++) {
+            let f_id = lines[i].getAttributeNS(null, "from-id");
+            let t_id = lines[i].getAttributeNS(null, "to-id");
 
-             //let from = svg.querySelector('[cid="24033307-7uczljr"]');
-             //let to   = svg.querySelector('[cid="24033307-fu1ot9q"]');
+            if (f_id == null && t_id == null) return;
+            console.log("conector", f_id, t_id);
 
-             let from = svg.querySelector('[cid="' + f_id + '"]');
-             let to   = svg.querySelector('[cid="' + t_id + '"]');
-             //console.log("from to ",from, to);
-	
-             const connector = new Connector(this, svg );
-             connector.connectLoadset(lines[i], from, to);
-             //from.connector = connector;
-             //to.connector = connector;
-             if (! from.connectors) {
-                 from.connectors = [];
-	     }
-             from.connectors.push(connector) ;
-             if (! to.connectors) {
-                 to.connectors = [];
-	     }
-             to.connectors.push(connector) ;
+            //let from = svg.querySelector('[cid="24033307-7uczljr"]');
+            //let to   = svg.querySelector('[cid="24033307-fu1ot9q"]');
 
+            let from = svg.querySelector('[cid="' + f_id + '"]');
+            let to = svg.querySelector('[cid="' + t_id + '"]');
+            //console.log("from to ",from, to);
 
-	}
+            const connector = new Connector(this, svg);
+            connector.connectLoadset(lines[i], from, to);
+            //from.connector = connector;
+            //to.connector = connector;
+            if (!from.connectors) {
+                from.connectors = [];
+            }
+            from.connectors.push(connector);
+            if (!to.connectors) {
+                to.connectors = [];
+            }
+            to.connectors.push(connector);
+        }
     }
-
 
     showCenter(svg) {
         const target = this.target();
@@ -376,9 +373,9 @@ export class Editor extends StdConstruct {
         var x = parseFloat(node.getAttributeNS(null, "x"));
         var y = parseFloat(node.getAttributeNS(null, "y"));
         var w = parseFloat(node.getAttributeNS(null, "width"));
-        var h = parseFloat(node.getAttributeNS(null, "height")) ;
+        var h = parseFloat(node.getAttributeNS(null, "height"));
 
-/*
+        /*
         var t = node.getAttributeNS(null, "transform") ;
 	    console.log(t)
         var r = 0;
@@ -392,11 +389,9 @@ export class Editor extends StdConstruct {
 
         let mtx = jNode.getMtx();
 
-        var cx_ = x + (w / 2) ;
-        var cy_ = y + (h / 2) ;
+        var cx_ = x + w / 2;
+        var cy_ = y + h / 2;
 
-
-	 
         const svgNamespace = "http://www.w3.org/2000/svg";
         let ci = document.createElementNS(svgNamespace, "circle");
         let c_tl = document.createElementNS(svgNamespace, "circle");
@@ -454,7 +449,7 @@ export class Editor extends StdConstruct {
         cc.setAttributeNS(null, "strok-width", "2");
         node.parentNode.appendChild(cc);
         new JSYG(cc).setMtx(mtx);
-/*
+        /*
         g.setAttributeNS(null, "transform", `translate($x,$y)`);
         cp.setAttributeNS(null, "cx", w/2);
         cp.setAttributeNS(null, "cy", h/2);
@@ -477,18 +472,18 @@ export class Editor extends StdConstruct {
         if (target.length != 2) return this;
         console.log("set connector", svg);
         //const connector = new Connector(this, svg, target[0], target[1]);
-        const connector = new Connector(this, svg );
+        const connector = new Connector(this, svg);
         connector.connectCreate(target[0], target[1]);
         //target[0].connector = connector;
         //target[1].connector = connector;
-             if (! target[0].connectors) {
-                 target[0].connectors = [];
-	     }
-             target[0].connectors.push(connector) ;
-             if (! target[1].connectors) {
-                 target[1].connectors = [];
-	     }
-             target[1].connectors.push(connector) ;
+        if (!target[0].connectors) {
+            target[0].connectors = [];
+        }
+        target[0].connectors.push(connector);
+        if (!target[1].connectors) {
+            target[1].connectors = [];
+        }
+        target[1].connectors.push(connector);
 
         //let line = connector.getLine();
         //const svg = document.querySelector("#containerDoc > svg");
@@ -639,9 +634,6 @@ if (Object.defineProperty) {
     try {
     } catch (e) {}
 }
-
-
-
 
 class SvgAttrUpdate extends StdConstruct {
     constructor(editorObject) {
@@ -1729,7 +1721,6 @@ Drag.prototype = {
         return this;
     },
     show(opt) {
-
         this.hide();
 
         if (opt) this.set(opt);
@@ -1749,7 +1740,7 @@ Drag.prototype = {
             event: "mousedown",
             eventWhich: 1,
             onstart(e) {
-		    console.log("---------------------0");
+                console.log("---------------------0");
 
                 backup = {
                     ctrlsMainPoints: that.editor.ctrlsMainPoints.enabled,
@@ -1769,9 +1760,9 @@ Drag.prototype = {
                 that.editor.trigger("dragstart", node, e);
                 that.trigger("dragstart", node, e);
                 if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
+                    for (let i = 0; i < node.connectors.length; i++) {
                         node.connectors[i].updateConnection("dragstart"); //GUSA
-		    }
+                    }
                 }
             },
             ondrag(e) {
@@ -1779,16 +1770,16 @@ Drag.prototype = {
                 that.editor.update();
                 that.editor.trigger("drag", node, e);
                 that.trigger("drag", node, e);
-		    /*
+                /*
                 if (node.connector) {
                     //GUSA
                     node.connector.updateConnection(); //GUSA
                 }
 		*/
                 if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
+                    for (let i = 0; i < node.connectors.length; i++) {
                         node.connectors[i].updateConnection("dragging"); //GUSA
-		    }
+                    }
                 }
             },
             ondragend(e) {
@@ -1804,9 +1795,9 @@ Drag.prototype = {
                 that.editor.trigger("change", node, e);
                 that.trigger("dragend", node, e);
                 if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
+                    for (let i = 0; i < node.connectors.length; i++) {
                         node.connectors[i].updateConnection("dragend"); //GUSA
-		    }
+                    }
                 }
             },
             onend(e) {
@@ -1974,17 +1965,17 @@ Resize.prototype = {
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
-		/*
+            /*
                 if (node.connector) {
                     //GUSA
                     node.connector.updateConnection(); //GUSA
                 }
 		*/
-                if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
-                        node.connectors[i].updateConnection(); //GUSA
-		    }
+            if (node.connectors) {
+                for (let i = 0; i < node.connectors.length; i++) {
+                    node.connectors[i].updateConnection(); //GUSA
                 }
+            }
         };
 
         const dragend = (e) => {
@@ -2215,7 +2206,6 @@ Rotate.prototype = {
         this.enabled = false;
     },
     show(opt, _preventEvent) {
-
         const node = this.editor._target;
         /*
          if (node.connectors)  {   //GUSA
@@ -2223,7 +2213,7 @@ Rotate.prototype = {
             return;
            }
 	 }
-	*/ 
+	*/
         //return;
 
         this.hide(true);
@@ -2283,21 +2273,22 @@ Rotate.prototype = {
             that.trigger("dragstart", node, e);
         };
 
-        const drag = (e) => {   //shape rotaite
+        const drag = (e) => {
+            //shape rotaite
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
-		/*
+            /*
                 if (node.connector) {
                     //GUSA
                     node.connector.updateConnection(); //GUSA
                 }
 		*/
-                if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
-                        node.connectors[i].updateConnection("rotate"); //GUSA
-		    }
+            if (node.connectors) {
+                for (let i = 0; i < node.connectors.length; i++) {
+                    node.connectors[i].updateConnection("rotate"); //GUSA
                 }
+            }
         };
 
         const dragend = (e) => {
@@ -2356,7 +2347,7 @@ Rotate.prototype = {
         return this;
     },
     update() {
-	//return this //GUDS
+        //return this //GUDS
 
         if (!this.display) return this;
 
