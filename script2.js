@@ -240,6 +240,7 @@ window.addEventListener("DOMContentLoaded", function () {
         target.addEventListener(eventName, handler, false);
     }
 
+
     selector = "#shape";
     eventName = "change";
     handler = function () {
@@ -271,6 +272,20 @@ window.addEventListener("DOMContentLoaded", function () {
     if (target) {
         target.addEventListener(eventName, handler, false);
     }
+
+
+    selector = "#connector";
+    eventName = "change";
+    handler = function () {
+        let type = this.value;
+        console.log(this.value);
+        svgEditor.set_connector_type(type);
+    };
+    target = document.querySelector(selector);
+    if (target) {
+        target.addEventListener(eventName, handler, false);
+    }
+
 
     $("#marqueeZoom").on("click", () => {
         svgEditor.marqueeZoom();

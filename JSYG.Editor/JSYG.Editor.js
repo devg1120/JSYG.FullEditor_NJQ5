@@ -10,7 +10,9 @@ import { Draggable } from "../JSYG.Draggable/JSYG.Draggable.js";
 import { Resizable } from "../JSYG.Resizable/JSYG.Resizable.js";
 import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 
-import { Connector } from "./JSYG.Connector.js";
+import { Connector }    from "./JSYG.Connector.js";
+import { ConnectorBL }  from "./JSYG.Connector_brokenline.js";
+
 
 import { Path } from "../JSYG.Path/JSYG.Path.js";
 import { ShapeInfo, Intersection, Point2D, Matrix2D } from "kld-intersections";
@@ -466,13 +468,26 @@ export class Editor extends StdConstruct {
         this.update();
     }
 
-    connector(svg) {
+    connector(svg, connector_type) {
         const target = this.target();
         if (!target) return this;
         if (target.length != 2) return this;
         console.log("set connector", svg);
         //const connector = new Connector(this, svg, target[0], target[1]);
-        const connector = new Connector(this, svg);
+        //const connector = new Connector(this, svg);
+
+        let connector;
+        //console.log(connector_type);
+        if (connector_type == "BL") {
+             connector = new ConnectorBL(this, svg);
+
+	} else if (connector_type == "NM" ) {
+             connector = new ConnectorBL(this, svg);
+
+	} else {
+             connector = new Connector(this, svg);
+	}
+
         connector.connectCreate(target[0], target[1]);
         //target[0].connector = connector;
         //target[1].connector = connector;

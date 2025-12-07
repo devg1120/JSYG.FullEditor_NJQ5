@@ -21,6 +21,7 @@ export default class FullEditor extends JSYG {
         this._init();
 
         this._keyShortCuts = {};
+        this.connector_type = "--";
 
         if (node) this.setNode(node);
 
@@ -60,7 +61,10 @@ export default class FullEditor extends JSYG {
 
         return this;
     }
+    set_connector_type( type ) {
+       this.connector_type = type;
 
+    }
     registerKeyShortCut(key_dict) {
         if (this.enabled) {
             new JSYG(document)[0].addEventListener("keydown", function (e) {
@@ -1165,7 +1169,7 @@ export default class FullEditor extends JSYG {
     }
    connector(type) {
 	//   console.log(this.getDocument());
-        this.shapeEditor.connector(this.getDocument());
+        this.shapeEditor.connector(this.getDocument(), this.connector_type);
 
         return this;
     }
