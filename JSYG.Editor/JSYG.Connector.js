@@ -149,6 +149,48 @@ export class Connector extends StdConstruct {
         if (n2[2] != 0) {
             if (this.node2.tagName == "rect") {
                 if (source == "dragging") {
+                    this.rotate = JSYG(this.node2).getMtx().rotate();
+                    this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
+                    
+                }
+
+                isc2 = this.rotate_intersect_rect(n1[1], n2[1], this.node2, n2[2], n2[3], n2[4]);
+                
+                if (source == "dragging") {
+                    JSYG(this.node2).setMtx(JSYG(this.node2).getMtx().rotate(this.rotate, n2[1][0], n2[1][1]));
+		}
+            }
+            if (this.node2.tagName == "ellipse") {
+                if (source == "dragging") {
+                    this.rotate = JSYG(this.node2).getMtx().rotate();
+                    this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
+			
+                } 
+		
+                isc2 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node2, n2[2], n2[3]);
+
+                if (source == "dragging") {
+                    JSYG(this.node2).setMtx(JSYG(this.node2).getMtx().rotate(this.rotate, n2[1][0], n2[1][1]));
+		}
+		
+            }
+            if (this.node2.tagName == "polygon") {
+                if (source == "dragging") {
+                    this.rotate = JSYG(this.node2).getMtx().rotate();
+                    this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
+                    //return;
+                }
+                isc2 = this.rotate_intersect_polygon(n1[1], n2[1], this.node2, n2[2], n2[3]);
+                //console.log(n1[2], "status", isc1.status)
+                if (source == "dragging") {
+                    //JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+		}
+            }
+        }
+	    /*
+        if (n2[2] != 0) {
+            if (this.node2.tagName == "rect") {
+                if (source == "dragging") {
                     this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
                     return;
                 }
@@ -164,7 +206,7 @@ export class Connector extends StdConstruct {
                 //console.log(n1[2], "status", isc2.status)
             }
         }
-
+*/
         //console.log("isc1", isc1.points.length)
         //console.log("isc2", isc2.points.length)
         //console.log(n2[2])
