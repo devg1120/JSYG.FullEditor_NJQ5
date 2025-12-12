@@ -70,7 +70,7 @@ export class Connector extends StdConstruct {
         return this.line;
     }
 
-    updateConnection(source) {
+    updateConnection_not_(source) {
         console.log("updateConnection", source);
 
         let n1 = this.get_center_point(this.node1);
@@ -86,7 +86,7 @@ export class Connector extends StdConstruct {
     }
 
     //updateConnection_routate(source) {
-    updateConnection_(source) {
+    updateConnection(source) {
         console.log("updateConnection", source);
 
         let n1 = this.get_center_point(this.node1);
@@ -99,7 +99,7 @@ export class Connector extends StdConstruct {
             if (this.node1.tagName == "rect") {
                 if (source == "dragging") {
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    return;
+                    //return;
                 }
                 isc1 = this.rotate_intersect_rect(n1[1], n2[1], this.node1, n1[2], n1[3], n1[4]);
                 //console.log(n1[2], "status", isc1.status)
@@ -107,7 +107,7 @@ export class Connector extends StdConstruct {
             if (this.node1.tagName == "ellipse") {
                 if (source == "dragging") {
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    return;
+                    //return;
                 }
                 isc1 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node1, n1[2], n1[3]);
                 //console.log(n1[2], "status", isc1.status)
@@ -115,7 +115,7 @@ export class Connector extends StdConstruct {
             if (this.node1.tagName == "polygon") {
                 if (source == "dragging") {
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    return;
+                    //return;
                 }
                 isc1 = this.rotate_intersect_polygon(n1[1], n2[1], this.node1, n1[2], n1[3]);
                 //console.log(n1[2], "status", isc1.status)
@@ -256,12 +256,14 @@ export class Connector extends StdConstruct {
         };
 
         // rotate the line into the ellipse's axis-aligned coordinate system
-        const radians = (ellipse.angle * Math.PI) / 180.0;
+        //const radians = (ellipse.angle * Math.PI) / 180.0;
         //const radians = ellipse.angle * 180.0 / Math.PI;
 
-        const rotation = Matrix2D.rotation(-radians);
+        //const rotation = Matrix2D.rotation(-radians);
         //const rotation = Matrix2D.rotation(-r*10);
         //const rotation = Matrix2D.rotationAt(ellipse.angle, ellipse.center);
+        const rotation = Matrix2D.rotationAt(-ellipse.angle, ellipse.center);
+        const unrotation = Matrix2D.rotationAt(ellipse.angle, ellipse.center);
 
         const rotatedLine = {
             p1: line.p1.transform(rotation),
@@ -270,6 +272,7 @@ export class Connector extends StdConstruct {
 
         // find intersections
         const result = Intersection.intersectEllipseLine(ellipse.center, ellipse.radiusX, ellipse.radiusY, rotatedLine.p1, rotatedLine.p2);
+        result.points[0] = result.points[0].transform(unrotation);
 
         return result;
     }
