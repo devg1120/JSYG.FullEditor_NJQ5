@@ -25,6 +25,7 @@ export class Connector extends StdConstruct {
         super();
         this.editor = editor;
         this.svg = svg;
+			this.rotate_recover = false;
     }
 
     connectCreate(from, to) {
@@ -94,31 +95,54 @@ export class Connector extends StdConstruct {
         const line = ShapeInfo.line(n1[1], n2[1]);
         var isc1 = Intersection.intersect(n1[0], line);
         var isc2 = Intersection.intersect(n2[0], line);
+	    /*
+                if (source == "dragend" && this.rotate_recover) {
+			console.log("---------- dragend")
+                 //    JSYG(this.node1).setMtx(this.mtx);
+                JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+			this.rotate_recover = false;
+		}
+		*/
 
         if (n1[2] != 0) {
             if (this.node1.tagName == "rect") {
                 if (source == "dragging") {
+                    this.rotate = JSYG(this.node1).getMtx().rotate();
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    //return;
+                    
                 }
+
                 isc1 = this.rotate_intersect_rect(n1[1], n2[1], this.node1, n1[2], n1[3], n1[4]);
-                //console.log(n1[2], "status", isc1.status)
+                
+                if (source == "dragging") {
+                    JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+		}
             }
             if (this.node1.tagName == "ellipse") {
                 if (source == "dragging") {
+                    this.rotate = JSYG(this.node1).getMtx().rotate();
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    //return;
-                }
+			
+                } 
+		
                 isc1 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node1, n1[2], n1[3]);
-                //console.log(n1[2], "status", isc1.status)
+
+                if (source == "dragging") {
+                    JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+		}
+		
             }
             if (this.node1.tagName == "polygon") {
                 if (source == "dragging") {
+                    this.rotate = JSYG(this.node1).getMtx().rotate();
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
                     //return;
                 }
                 isc1 = this.rotate_intersect_polygon(n1[1], n2[1], this.node1, n1[2], n1[3]);
                 //console.log(n1[2], "status", isc1.status)
+                if (source == "dragging") {
+                    //JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+		}
             }
         }
 
@@ -331,7 +355,9 @@ export class Connector extends StdConstruct {
                 let point = [parseFloat(list[i]), parseFloat(list[i + 1])];
                 points_array.push(point);
             }
-            let center = this.polygon_center(points_array);
+            //let center = this.polygon_center(points_array);
+	    let bb = node.getBBox();
+            let center = [bb.x + bb.width/2, bb.y + bb.height/2];
             var t = node.getAttributeNS(null, "transform");
             var r = 0;
             var angle = 0;
