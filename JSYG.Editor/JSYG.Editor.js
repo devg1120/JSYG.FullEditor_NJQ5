@@ -364,6 +364,21 @@ export class Editor extends StdConstruct {
         }
     }
 
+    resetRotate(svg) {
+        const target = this.target();
+        if (!target) return this;
+        if (target.length != 1) return this;
+        console.log("resetRotate");
+        target[0].setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
+        this.update();
+	let node = target[0];
+                if (node.connectors) {
+                    for (let i = 0; i < node.connectors.length; i++) {
+                        node.connectors[i].updateConnection("resetRotate"); //GUSA
+                    }
+                }
+    }
+
     showCenter(svg) {
         const target = this.target();
         if (!target) return this;

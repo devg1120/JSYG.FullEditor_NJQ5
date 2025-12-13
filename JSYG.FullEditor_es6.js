@@ -1181,6 +1181,12 @@ export default class FullEditor extends JSYG {
         return this;
     }
 
+   resetRotate() {
+	//   console.log(this.getDocument());
+        this.shapeEditor.resetRotate(this.getDocument());
+
+        return this;
+    }
     target(value) {
         if (value == null) {
             if (this.textEditor.display) return this.textEditor.target();

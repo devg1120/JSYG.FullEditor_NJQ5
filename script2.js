@@ -138,6 +138,16 @@ window.addEventListener("DOMContentLoaded", function () {
         target.addEventListener(eventName, handler, false);
     }
 
+   selector = "#resetRotate";
+    eventName = "click";
+    handler = () => {
+        svgEditor.resetRotate();
+    };
+    target = document.querySelector(selector);
+    if (target) {
+        target.addEventListener(eventName, handler, false);
+    }
+
     selector = "#svgAttrSet";
     eventName = "click";
     handler = () => {
