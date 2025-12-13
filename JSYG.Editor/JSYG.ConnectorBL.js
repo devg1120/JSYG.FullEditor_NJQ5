@@ -87,8 +87,60 @@ export class ConnectorBL extends StdConstruct {
         this.line.setAttributeNS(null, "y2", isc2.points[0].y);
     }
 
-    //updateConnection_routate(source) {
     updateConnection(source) {
+	    /*
+	     *
+	     *                   |
+	     *           A       |     B
+	     *                   |
+	     *     --------------+--------------
+	     *                   |
+	     *           C       |     D
+	     *                   |
+	     *
+	     */
+        let n1 = this.get_connect_point(this.node1);
+        let n2 = this.get_connect_point(this.node2);
+         if (n1[0][0] <  n2[0][0] ) {    //x
+             if (n1[0][1] <  n2[0][1] ) {    //y
+		     // n1
+		     //      n2
+		     console.log( "A->D")  //*******
+                     this.line.setAttributeNS(null, "x1", n1[1][2][0]);
+                     this.line.setAttributeNS(null, "y1", n1[1][2][1]);
+                     this.line.setAttributeNS(null, "x2", n2[1][0][0]);
+                     this.line.setAttributeNS(null, "y2", n2[1][0][1]);
+             } else {
+		     //      n2
+		     // n1
+		     console.log( "C->B")
+                     this.line.setAttributeNS(null, "x1", n1[1][0][0]);
+                     this.line.setAttributeNS(null, "y1", n1[1][0][1]);
+                     this.line.setAttributeNS(null, "x2", n2[1][2][0]);
+                     this.line.setAttributeNS(null, "y2", n2[1][2][1]);
+	     }
+	 } else {
+             if (n1[0][1] <  n2[0][1] ) {
+		     //      n1
+		     // n2
+		     console.log( "B->C")   //******
+                     this.line.setAttributeNS(null, "x1", n1[1][2][0]);
+                     this.line.setAttributeNS(null, "y1", n1[1][2][1]);
+                     this.line.setAttributeNS(null, "x2", n2[1][0][0]);
+                     this.line.setAttributeNS(null, "y2", n2[1][0][1]);
+             } else {
+		     // n2
+		     //      n1
+		     console.log( "D->A")
+                     this.line.setAttributeNS(null, "x1", n1[1][0][0]);
+                     this.line.setAttributeNS(null, "y1", n1[1][0][1]);
+                     this.line.setAttributeNS(null, "x2", n2[1][2][0]);
+                     this.line.setAttributeNS(null, "y2", n2[1][2][1]);
+	     }
+	 }
+    }
+    //updateConnection_routate(source) {
+    updateConnection_(source) {
         console.log("updateConnection", source);
 
         let n1 = this.get_center_point(this.node1);
@@ -301,6 +353,102 @@ export class ConnectorBL extends StdConstruct {
         result.points[0] = result.points[0].transform(unrotation);
 
         return result;
+    }
+
+    get_connect_point(node) {
+        if (node.tagName == "rect") {
+            var x = parseFloat(node.getAttributeNS(null, "x"));
+            var y = parseFloat(node.getAttributeNS(null, "y"));
+            var w = parseFloat(node.getAttributeNS(null, "width"));
+            var h = parseFloat(node.getAttributeNS(null, "height"));
+            var t = node.getAttributeNS(null, "transform");
+            var r = 0;
+            var angle = 0;
+            if (t) {
+                var tv = t.slice(7).slice(0, -1).split(" ");
+                r = (Math.atan2(tv[1], tv[0]) * 180) / Math.PI;
+                angle = Math.atan2(tv[1], tv[0]);
+            }
+            var cx = x + w / 2;
+            var cy = y + h / 2;
+            var t  = [ x + w/2 , y      ]
+            var r  = [ x + w   , y + h/2]
+            var b  = [ x + w/2 , y + h  ]
+            var l  = [ x       , y + h/2]
+
+            return [[cx, cy], [t,r,b,l ], r, angle];
+
+        } else if (node.tagName == "circle") {
+            var cx = parseFloat(node.getAttributeNS(null, "cx"));
+            var cy = parseFloat(node.getAttributeNS(null, "cy"));
+            var rr = parseFloat(node.getAttributeNS(null, "r"));
+            var t = node.getAttributeNS(null, "transform");
+            var r = 0;
+            var angle = 0;
+            if (t) {
+                var tv = t.slice(7).slice(0, -1).split(" ");
+                r = (Math.atan2(tv[1], tv[0]) * 180) / Math.PI;
+                angle = Math.atan2(tv[1], tv[0]);
+            }
+            //var cx = x + w / 2;
+            //var cy = y + h / 2;
+            var t  = [ cx      , cy - rr  ]
+            var r  = [ cx + rr , cy       ]
+            var b  = [ cx      , cy + rr  ]
+            var l  = [ cx - rr , cy       ]
+
+            return [[cx, cy], [t,r,b,l ], r, angle];
+
+        } else if (node.tagName == "ellipse") {
+            var cx = parseFloat(node.getAttributeNS(null, "cx"));
+            var cy = parseFloat(node.getAttributeNS(null, "cy"));
+            var rx = parseFloat(node.getAttributeNS(null, "rx"));
+            var ry = parseFloat(node.getAttributeNS(null, "ry"));
+            var t = node.getAttributeNS(null, "transform");
+            var r = 0;
+            var angle = 0;
+            if (t) {
+                var tv = t.slice(7).slice(0, -1).split(" ");
+                r = (Math.atan2(tv[1], tv[0]) * 180) / Math.PI;
+                angle = Math.atan2(tv[1], tv[0]);
+            }
+            //var cx = x + w / 2;
+            //var cy = y + h / 2;
+            var t  = [ cx      , cy - ry  ]
+            var r  = [ cx + rx , cy       ]
+            var b  = [ cx      , cy + ry  ]
+            var l  = [ cx - rx , cy       ]
+
+            return [[cx, cy], [t,r,b,l ], r, angle];
+
+        } else if (node.tagName == "polygon") {
+            var points_str = node.getAttributeNS(null, "points");
+            var t = node.getAttributeNS(null, "transform");
+            var list = points_str.split(" ");
+            let points_array = [];
+            for (let i = 0; i < list.length; i = i + 2) {
+                let point = [parseFloat(list[i]), parseFloat(list[i + 1])];
+                points_array.push(point);
+            }
+            //let center = this.polygon_center(points_array);
+	    let bb = node.getBBox();
+            let center = [bb.x + bb.width/2, bb.y + bb.height/2];
+            var t = node.getAttributeNS(null, "transform");
+            var r = 0;
+            var angle = 0;
+            if (t) {
+                var tv = t.slice(7).slice(0, -1).split(" ");
+                r = (Math.atan2(tv[1], tv[0]) * 180) / Math.PI;
+                angle = Math.atan2(tv[1], tv[0]);
+            }
+            console.log("polygon", r);
+
+            const polygon = ShapeInfo.polygon(points_array);
+            return [polygon, center, r, angle];
+        } else {
+            throw ("connection node type", node.tagName);
+        }
+	
     }
 
     get_center_point(node) {
