@@ -10,7 +10,8 @@ import { Draggable } from "../JSYG.Draggable/JSYG.Draggable.js";
 import { Resizable } from "../JSYG.Resizable/JSYG.Resizable.js";
 import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 
-import { Connector }    from "./JSYG.Connector.js";
+//import { Connector }    from "./JSYG.Connector.js";
+import { Connector }    from "./JSYG.Connector_v2.js";
 import { ConnectorBL }  from "./JSYG.Connector_brokenline.js";
 
 

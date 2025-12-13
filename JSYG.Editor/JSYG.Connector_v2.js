@@ -95,65 +95,51 @@ export class Connector extends StdConstruct {
         const line = ShapeInfo.line(n1[1], n2[1]);
         var isc1 = Intersection.intersect(n1[0], line);
         var isc2 = Intersection.intersect(n2[0], line);
-	    /*
-                if (source == "dragend" && this.rotate_recover) {
-			console.log("---------- dragend")
-                 //    JSYG(this.node1).setMtx(this.mtx);
-                JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
-			this.rotate_recover = false;
-		}
-		*/
 
         if (n1[2] != 0) {
             if (this.node1.tagName == "rect") {
                 if (source == "dragging") {
                     this.rotate = JSYG(this.node1).getMtx().rotate();
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-		/*
-	       var t = this.node1.getAttributeNS(null, "transform") ;
-               var tv = t.slice(7).slice(0,-1).split(' ');
-               tv[0]= "1";
-               tv[1]= "0";
-               tv[2]= "0";
-               tv[3]= "1";
-               tv[4]= -tv[4];
-               tv[5]= -tv[5];
-               var mtx = "matrix(" + tv[0] + " " + tv[1] + " " + tv[2] + " " + tv[3] + " " + tv[4] + " " + tv[5] + ")";
-               console.log(mtx);
-               this.node1.setAttributeNS(null, "transform", mtx );
-*/
-                }
-
-                isc1 = this.rotate_intersect_rect(n1[1], n2[1], this.node1, n1[2], n1[3], n1[4]);
-                
-                if (source == "dragging") {
+	     	    /*
+	            var t = this.node1.getAttributeNS(null, "transform") ;
+                    var tv = t.slice(7).slice(0,-1).split(' ');
+                    tv[0]= "1";
+                    tv[1]= "0";
+                    tv[2]= "0";
+                    tv[3]= "1";
+                    tv[4]= -tv[4];
+                    tv[5]= -tv[5];
+                    var mtx = "matrix(" + tv[0] + " " + tv[1] + " " + tv[2] + " " + tv[3] + " " + tv[4] + " " + tv[5] + ")";
+                    console.log(mtx);
+                    this.node1.setAttributeNS(null, "transform", mtx );
+                     */
+                    isc1 = this.rotate_intersect_rect(n1[1], n2[1], this.node1, n1[2], n1[3], n1[4]);
                     JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+                } else {
+                    isc1 = this.rotate_intersect_rect(n1[1], n2[1], this.node1, n1[2], n1[3], n1[4]);
 		}
             }
             if (this.node1.tagName == "ellipse") {
                 if (source == "dragging") {
                     this.rotate = JSYG(this.node1).getMtx().rotate();
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-			
-                } 
-		
-                isc1 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node1, n1[2], n1[3]);
-
-                if (source == "dragging") {
+                    isc1 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node1, n1[2], n1[3]);
                     JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
-		}
+			
+                } else {
+                    isc1 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node1, n1[2], n1[3]);
+                }
 		
             }
             if (this.node1.tagName == "polygon") {
                 if (source == "dragging") {
                     this.rotate = JSYG(this.node1).getMtx().rotate();
                     this.node1.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    //return;
-                }
-                isc1 = this.rotate_intersect_polygon(n1[1], n2[1], this.node1, n1[2], n1[3]);
-                //console.log(n1[2], "status", isc1.status)
-                if (source == "dragging") {
+                    isc1 = this.rotate_intersect_polygon(n1[1], n2[1], this.node1, n1[2], n1[3]);
                     //JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+                } else {
+                    isc1 = this.rotate_intersect_polygon(n1[1], n2[1], this.node1, n1[2], n1[3]);
 		}
             }
         }
@@ -163,65 +149,33 @@ export class Connector extends StdConstruct {
                 if (source == "dragging") {
                     this.rotate = JSYG(this.node2).getMtx().rotate();
                     this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    
-                }
-
-                isc2 = this.rotate_intersect_rect(n1[1], n2[1], this.node2, n2[2], n2[3], n2[4]);
-                
-                if (source == "dragging") {
+                    isc2 = this.rotate_intersect_rect(n1[1], n2[1], this.node2, n2[2], n2[3], n2[4]);
                     JSYG(this.node2).setMtx(JSYG(this.node2).getMtx().rotate(this.rotate, n2[1][0], n2[1][1]));
+                } else {
+                    isc2 = this.rotate_intersect_rect(n1[1], n2[1], this.node2, n2[2], n2[3], n2[4]);
 		}
             }
             if (this.node2.tagName == "ellipse") {
                 if (source == "dragging") {
                     this.rotate = JSYG(this.node2).getMtx().rotate();
                     this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-			
-                } 
-		
-                isc2 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node2, n2[2], n2[3]);
-
-                if (source == "dragging") {
+                    isc2 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node2, n2[2], n2[3]);
                     JSYG(this.node2).setMtx(JSYG(this.node2).getMtx().rotate(this.rotate, n2[1][0], n2[1][1]));
+                } else {
+                    isc2 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node2, n2[2], n2[3]);
 		}
-		
             }
             if (this.node2.tagName == "polygon") {
                 if (source == "dragging") {
                     this.rotate = JSYG(this.node2).getMtx().rotate();
                     this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    //return;
-                }
-                isc2 = this.rotate_intersect_polygon(n1[1], n2[1], this.node2, n2[2], n2[3]);
-                //console.log(n1[2], "status", isc1.status)
-                if (source == "dragging") {
+                    isc2 = this.rotate_intersect_polygon(n1[1], n2[1], this.node2, n2[2], n2[3]);
                     //JSYG(this.node1).setMtx(JSYG(this.node1).getMtx().rotate(this.rotate, n1[1][0], n1[1][1]));
+                } else {
+                    isc2 = this.rotate_intersect_polygon(n1[1], n2[1], this.node2, n2[2], n2[3]);
 		}
             }
         }
-	    /*
-        if (n2[2] != 0) {
-            if (this.node2.tagName == "rect") {
-                if (source == "dragging") {
-                    this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    return;
-                }
-                isc2 = this.rotate_intersect_rect(n1[1], n2[1], this.node2, n2[2], n2[3]);
-                //console.log(n1[2], "status", isc2.status)
-            }
-            if (this.node2.tagName == "ellipse") {
-                if (source == "dragging") {
-                    this.node2.setAttributeNS(null, "transform", "matrix(1 0 0 1 0 0)");
-                    return;
-                }
-                isc2 = this.rotate_intersect_ellipse(n1[1], n2[1], this.node2, n2[2], n2[3]);
-                //console.log(n1[2], "status", isc2.status)
-            }
-        }
-*/
-        //console.log("isc1", isc1.points.length)
-        //console.log("isc2", isc2.points.length)
-        //console.log(n2[2])
 
         this.line.setAttributeNS(null, "x1", isc1.points[0].x);
         this.line.setAttributeNS(null, "y1", isc1.points[0].y);
@@ -292,11 +246,7 @@ export class Connector extends StdConstruct {
             poly.push(p);
         }
 
-        //const center = rect.topLeft.lerp(rect.bottomRight, 0.5);
-        //const center =  new Point2D(rect_x + rect_width/2,  rect_y + rect_height/2)
 
-        // define rotation in radians
-        //const angle = r * Math.PI / 180.0;
 
         // create matrix for rotating around center of rectangle
         let b = polygon_.getBBox();
@@ -333,13 +283,6 @@ export class Connector extends StdConstruct {
             angle: angle_,
         };
 
-        // rotate the line into the ellipse's axis-aligned coordinate system
-        //const radians = (ellipse.angle * Math.PI) / 180.0;
-        //const radians = ellipse.angle * 180.0 / Math.PI;
-
-        //const rotation = Matrix2D.rotation(-radians);
-        //const rotation = Matrix2D.rotation(-r*10);
-        //const rotation = Matrix2D.rotationAt(ellipse.angle, ellipse.center);
         const rotation = Matrix2D.rotationAt(-ellipse.angle, ellipse.center);
         const unrotation = Matrix2D.rotationAt(ellipse.angle, ellipse.center);
 
