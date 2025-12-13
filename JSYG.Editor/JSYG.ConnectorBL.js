@@ -20,12 +20,13 @@ function guid() {
     return timestamp + "-" + randomString;
 }
 
-export class Connector extends StdConstruct {
+export class ConnectorBL extends StdConstruct {
     constructor(editor, svg) {
         super();
         this.editor = editor;
         this.svg = svg;
 			this.rotate_recover = false;
+	    console.log("ConnectorBL");
     }
 
     connectCreate(from, to) {

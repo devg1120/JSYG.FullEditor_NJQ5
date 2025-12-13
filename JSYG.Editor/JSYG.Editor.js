@@ -12,7 +12,8 @@ import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 
 //import { Connector }    from "./JSYG.Connector.js";
 import { Connector }    from "./JSYG.Connector_v2.js";
-import { ConnectorBL }  from "./JSYG.Connector_brokenline.js";
+//import { ConnectorBL }  from "./JSYG.Connector_brokenline.js";
+import { ConnectorBL }  from "./JSYG.ConnectorBL.js";
 
 
 import { Path } from "../JSYG.Path/JSYG.Path.js";

@@ -21,7 +21,11 @@ export default class FullEditor extends JSYG {
         this._init();
 
         this._keyShortCuts = {};
-        this.connector_type = "--";
+        //this.connector_type = "--";
+        //this.connector_type = "BL";
+        let sel = document.querySelector("#connector");
+        //console.log(">>>",sel.value);
+        this.connector_type = sel.value;
 
         if (node) this.setNode(node);
 
