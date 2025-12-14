@@ -14,6 +14,8 @@ import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 import { Connector }    from "./JSYG.Connector_v2.js";
 //import { ConnectorBL }  from "./JSYG.Connector_brokenline.js";
 import { ConnectorBL }  from "./JSYG.ConnectorBL.js";
+import { ConnectorPATH_VV }  from "./JSYG.ConnectorPATH_VV.js";
+import { ConnectorPATH_HH }  from "./JSYG.ConnectorPATH_HH.js";
 
 
 import { Path } from "../JSYG.Path/JSYG.Path.js";
@@ -495,11 +497,17 @@ export class Editor extends StdConstruct {
 
         let connector;
         //console.log(connector_type);
-        if (connector_type == "BL") {
+        if (connector_type == "LINE") {
              connector = new ConnectorBL(this, svg);
 
-	} else if (connector_type == "NM" ) {
-             connector = new ConnectorBL(this, svg);
+	} else if (connector_type == "PATH_VV" ) {
+             connector = new ConnectorPATH_VV(this, svg);
+
+	} else if (connector_type == "PATH_HH" ) {
+             connector = new ConnectorPATH_HH(this, svg);
+
+	} else if (connector_type == "CINS" ) {
+             connector = new Connector(this, svg);
 
 	} else {
              connector = new Connector(this, svg);
