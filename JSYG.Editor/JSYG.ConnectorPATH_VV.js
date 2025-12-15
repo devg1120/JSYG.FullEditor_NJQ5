@@ -297,6 +297,89 @@ export class ConnectorPATH_VV extends StdConstruct {
 
     over_curve_path( x1, y1, x2, y2) {
         let xd = x1  + (x2 - x1)/2
+        let yd = y1  + (y2 - y1)/2
+        let xd1 =  xd - 20
+        let xd2 =  xd + 20
+	let e1 = y1 + 40;
+	let e2 = y2 - 40;
+        let x1_ = x1 + 20;
+        let x2_ = x2 - 20;
+        let x1_2 = x1 - 20;
+        let x2_2 = x2 + 20;
+
+        let ds1 = "M" + " " +
+		  x1 + " " +
+		  y1 + " " +
+
+		 //"L" + " " +    // YD
+		 "C" + " " +    // YD
+		  //x1 + " " +
+		  x1_ + " " +
+		  e1  + " " +
+
+		 "," + " " +    // XD1
+		  xd1 + " " +
+		  e1 + " " +
+
+		 "," + " " +    // XD2
+		  xd + " " +
+		  yd + " " +
+
+		 "C" + " " +    // XD2
+		  xd2 + " " +
+		  e2 + " " +
+		  
+
+		 "," + " " +    // YD
+		  x2_ + " " +
+		  e2 + " " +
+
+		    
+		 "," + " " +
+		  x2 + " " +
+		  y2 + " " +
+		  
+		 " ";
+
+        let ds2 = "M" + " " +
+		  x1 + " " +
+		  y1 + " " +
+
+		 "C" + " " +    // YD
+		  x1_2 + " " +
+		  e1  + " " +
+
+		 "," + " " +    // XD1
+		  xd2 + " " +
+		  e1 + " " +
+
+		 "," + " " +    // XD2
+		  xd + " " +
+		  yd + " " +
+
+		 "C" + " " +    // XD2
+		  xd1 + " " +
+		  e2 + " " +
+		  
+
+		 "," + " " +    // YD
+		  x2_2 + " " +
+		  e2 + " " +
+
+		    
+		 "," + " " +
+		  x2 + " " +
+		  y2 + " " +
+		  
+		 " ";
+         if (x1 < x2) {
+	    return ds1;
+	 } else {
+	    return ds2;
+	 }
+    }
+    over_curve_path_( x1, y1, x2, y2) {
+        let xd = x1  + (x2 - x1)/2
         let xd1 =  xd - 20
         let xd2 =  xd + 20
         let yd = y1  + 20

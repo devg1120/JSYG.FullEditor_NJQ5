@@ -497,8 +497,8 @@ export class Editor extends StdConstruct {
 
         let connector;
         //console.log(connector_type);
-        if (connector_type == "LINE") {
-             connector = new ConnectorBL(this, svg);
+        if (connector_type == "LINE1") {
+             connector = new Connector(this, svg);
 
 	} else if (connector_type == "PATH_VV" ) {
              connector = new ConnectorPATH_VV(this, svg);
@@ -506,11 +506,9 @@ export class Editor extends StdConstruct {
 	} else if (connector_type == "PATH_HH" ) {
              connector = new ConnectorPATH_HH(this, svg);
 
-	} else if (connector_type == "CINS" ) {
-             connector = new Connector(this, svg);
 
 	} else {
-             connector = new Connector(this, svg);
+             connector = new ConnectorBL(this, svg);
 	}
 
         connector.connectCreate(target[0], target[1]);
