@@ -14,6 +14,7 @@ import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 import { Connector }    from "./JSYG.Connector_v2.js";
 //import { ConnectorBL }  from "./JSYG.Connector_brokenline.js";
 import { ConnectorBL }  from "./JSYG.ConnectorBL.js";
+import { ConnectorPATH_DD }  from "./JSYG.ConnectorPATH_DD.js";
 import { ConnectorPATH_VV }  from "./JSYG.ConnectorPATH_VV.js";
 import { ConnectorPATH_HH }  from "./JSYG.ConnectorPATH_HH.js";
 
@@ -499,19 +500,37 @@ export class Editor extends StdConstruct {
         //console.log(connector_type);
         if (connector_type == "LINE1") {
              connector = new Connector(this, svg);
+             connector.connectCreate(target[0], target[1]);
+
+	} else if (connector_type == "PATH_DD" ) {
+             connector = new ConnectorPATH_DD(this, svg);
+             let sel = document.querySelector("#connector-path-type");
+             let path_type = sel.value;
+             sel = document.querySelector("#connector-path-ep1");
+             let path_ep1 = sel.value;
+             sel = document.querySelector("#connector-path-ep2");
+             let path_ep2 = sel.value;
+             connector.connectCreate(target[0], target[1], path_type, path_ep1, path_ep2);
 
 	} else if (connector_type == "PATH_VV" ) {
              connector = new ConnectorPATH_VV(this, svg);
+             let sel = document.querySelector("#connector-path-type");
+             let path_type = sel.value;
+             connector.connectCreate(target[0], target[1], path_type);
 
 	} else if (connector_type == "PATH_HH" ) {
              connector = new ConnectorPATH_HH(this, svg);
+             let sel = document.querySelector("#connector-path-type");
+             let path_type = sel.value;
+             connector.connectCreate(target[0], target[1], path_type);
 
 
 	} else {
              connector = new ConnectorBL(this, svg);
+             connector.connectCreate(target[0], target[1]);
 	}
 
-        connector.connectCreate(target[0], target[1]);
+        //connector.connectCreate(target[0], target[1]);
         //target[0].connector = connector;
         //target[1].connector = connector;
         if (!target[0].connectors) {

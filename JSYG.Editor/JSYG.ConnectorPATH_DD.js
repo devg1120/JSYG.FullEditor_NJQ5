@@ -20,7 +20,7 @@ function guid() {
     return timestamp + "-" + randomString;
 }
 
-export class ConnectorPATH_HH extends StdConstruct {
+export class ConnectorPATH_DD extends StdConstruct {
     constructor(editor, svg) {
         super();
         this.editor = editor;
@@ -29,7 +29,7 @@ export class ConnectorPATH_HH extends StdConstruct {
 	    console.log("ConnectorBL");
     }
 
-    connectCreate(from, to, path_type) {
+    connectCreate(from, to, path_type, path_ep1, path_ep2) {
         this.node1 = from;
         this.node2 = to;
         //this.path_type = "right_angle_path";
@@ -37,6 +37,8 @@ export class ConnectorPATH_HH extends StdConstruct {
         //let sel = document.querySelector("#connector-path-type");
         //this.path_type = sel.value;
         this.path_type = path_type;
+        this.path_endpoint1 = path_ep1;
+        this.path_endpoint2 = path_ep2;
 
 
         console.log("connector init: ", from.tagName, to.tagName);
@@ -235,7 +237,8 @@ export class ConnectorPATH_HH extends StdConstruct {
 	    return ds2;
 	 }
     }
-    right_angle_path( x1, y1, x2, y2) {
+    right_angle_path( x1, y1, x2, y2, ep1, ep2) {
+	    console.log(x1,y1,x2,y2);
         let yd = y1 + (y2 - y1)/2
         let ds = "M" + " " +
 		  x1 + " " +
@@ -297,6 +300,89 @@ export class ConnectorPATH_HH extends StdConstruct {
     }
 
     over_curve_path( x1, y1, x2, y2) {
+        let xd = x1  + (x2 - x1)/2
+        let yd = y1  + (y2 - y1)/2
+        let xd1 =  xd - 20
+        let xd2 =  xd + 20
+	let e1 = y1 + 40;
+	let e2 = y2 - 40;
+        let x1_ = x1 + 20;
+        let x2_ = x2 - 20;
+        let x1_2 = x1 - 20;
+        let x2_2 = x2 + 20;
+
+        let ds1 = "M" + " " +
+		  x1 + " " +
+		  y1 + " " +
+
+		 //"L" + " " +    // YD
+		 "C" + " " +    // YD
+		  //x1 + " " +
+		  x1_ + " " +
+		  e1  + " " +
+
+		 "," + " " +    // XD1
+		  xd1 + " " +
+		  e1 + " " +
+
+		 "," + " " +    // XD2
+		  xd + " " +
+		  yd + " " +
+
+		 "C" + " " +    // XD2
+		  xd2 + " " +
+		  e2 + " " +
+		  
+
+		 "," + " " +    // YD
+		  x2_ + " " +
+		  e2 + " " +
+
+		    
+		 "," + " " +
+		  x2 + " " +
+		  y2 + " " +
+		  
+		 " ";
+
+        let ds2 = "M" + " " +
+		  x1 + " " +
+		  y1 + " " +
+
+		 "C" + " " +    // YD
+		  x1_2 + " " +
+		  e1  + " " +
+
+		 "," + " " +    // XD1
+		  xd2 + " " +
+		  e1 + " " +
+
+		 "," + " " +    // XD2
+		  xd + " " +
+		  yd + " " +
+
+		 "C" + " " +    // XD2
+		  xd1 + " " +
+		  e2 + " " +
+		  
+
+		 "," + " " +    // YD
+		  x2_2 + " " +
+		  e2 + " " +
+
+		    
+		 "," + " " +
+		  x2 + " " +
+		  y2 + " " +
+		  
+		 " ";
+         if (x1 < x2) {
+	    return ds1;
+	 } else {
+	    return ds2;
+	 }
+    }
+    over_curve_path_( x1, y1, x2, y2) {
         let xd = x1  + (x2 - x1)/2
         let xd1 =  xd - 20
         let xd2 =  xd + 20
@@ -374,6 +460,48 @@ export class ConnectorPATH_HH extends StdConstruct {
 	     */
         let n1 = this.get_connect_point(this.node1);
         let n2 = this.get_connect_point(this.node2);
+
+                     let x1 = 0;
+                     let y1 = 0;
+                     let x2 = 0;
+                     let y2 = 0;
+
+         if (this.path_endpoint1 == "TOP") {
+                      x1 = n1[1][0][0]
+                      y1 = n1[1][0][1]
+	 } else if (this.path_endpoint1 == "RIGHT") {
+                      x1 = n1[1][1][0]
+                      y1 = n1[1][1][1]
+	 } else if (this.path_endpoint1 == "BOTTOM") {
+                      x1 = n1[1][2][0]
+                      y1 = n1[1][2][1]
+	 } else if (this.path_endpoint1 == "LEFT") {
+                      x1 = n1[1][3][0]
+                      y1 = n1[1][3][1]
+         } else {
+            console.log("un match 1");
+	 }
+
+         if (this.path_endpoint2 == "TOP") {
+                      x2 = n2[1][0][0]
+                      y2 = n2[1][0][1]
+	 } else if (this.path_endpoint2 == "RIGHT") {
+                      x2 = n2[1][1][0]
+                      y2 = n2[1][1][1]
+	 } else if (this.path_endpoint2 == "BOTTOM") {
+                      x2 = n2[1][2][0]
+                      y2 = n2[1][2][1]
+	 } else if (this.path_endpoint2 == "LEFT") {
+                      x2 = n2[1][3][0]
+                      y2 = n2[1][3][1]
+         } else {
+            console.log("un match 2");
+	 }
+                     let over = false;
+		     let ds = this.path_build( x1, y1, x2, y2, this.path_endpoint1, this.path_endpoint2)
+                     this.path.setAttributeNS(null, "d", ds);
+         return
+
          if (n1[0][0] <  n2[0][0] ) {    //x
              if (n1[0][1] <  n2[0][1] ) {    //y
 		     // n1

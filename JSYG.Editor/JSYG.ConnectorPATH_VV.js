@@ -29,13 +29,14 @@ export class ConnectorPATH_VV extends StdConstruct {
 	    console.log("ConnectorBL");
     }
 
-    connectCreate(from, to) {
+    connectCreate(from, to, path_type) {
         this.node1 = from;
         this.node2 = to;
         //this.path_type = "right_angle_path";
         //this.path_type = "direct_path";
-        let sel = document.querySelector("#connector-path-type");
-        this.path_type = sel.value;
+        //let sel = document.querySelector("#connector-path-type");
+        //this.path_type = sel.value;
+        this.path_type = path_type;
 
 
         console.log("connector init: ", from.tagName, to.tagName);
