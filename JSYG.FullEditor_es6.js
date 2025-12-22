@@ -1,5 +1,5 @@
 import JSYG from "./JSYG-wrapper/JSYG-wrapper.js";
-import { TextEditor } from "./JSYG.TextEditor/JSYG.TextEditor7.js";
+import { TextEditor } from "./JSYG.TextEditor/JSYG.TextEditor8.js";
 import { BoundingBox } from "./JSYG.BoundingBox/JSYG.BoundingBox.js";
 import { Color } from "./JSYG.Color/JSYG.Color.js";
 import { Editor } from "./JSYG.Editor/JSYG.Editor.js";

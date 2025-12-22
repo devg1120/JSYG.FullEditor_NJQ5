@@ -31,6 +31,13 @@ export class TextEditor extends StdConstruct {
 
         if (display) this.hide(true);
 
+        //target.setAttribute("
+//var textNode = target.childNodes[0];
+//textNode.nodeValue = "New text.";
+	   console.log(target.children.length)
+var data = document.createTextNode("___");
+target.appendChild(data);
+
         this._target = target;
         this.box.setNode(target);
 
@@ -181,13 +188,21 @@ export class TextEditor extends StdConstruct {
         var padding_left = parseInt(style["padding-left"]);
         var padding_right = parseInt(style["padding-right"]);
         var padding_bottom = parseInt(style["padding-bottom"]);
+/*
         bg.setAttribute("x", bounds.x - parseInt(style["padding-left"]) - 4);
         bg.setAttribute("y", bounds.y - parseInt(style["padding-top"]));
         bg.setAttribute("width", bounds.width + padding_left + padding_right + 8);
         bg.setAttribute("height", bounds.height + padding_top + padding_bottom);
+*/
+        bg.setAttribute("x", bounds.x - parseInt(style["padding-left"]) - 4);
+        bg.setAttribute("y", bounds.y - parseInt(style["padding-top"]));
+        bg.setAttribute("width", bounds.width + padding_left + padding_right + 8);
+        bg.setAttribute("height", bounds.height + padding_top + padding_bottom);
+
         //bg.setAttribute("fill", style["background-color"])
         //bg.setAttribute("fill", "lightgray");
         bg.setAttribute("fill", "#e6e6fa");
+        //bg.setAttribute("fill", "yellow");
         bg.setAttribute("rx", style["border-radius"]);
         bg.setAttribute("stroke-width", style["border-top-width"]);
         bg.setAttribute("stroke", style["border-top-color"]);
@@ -214,6 +229,7 @@ export class TextEditor extends StdConstruct {
         //bg.setAttribute("fill", "lightgray");
         //bg.setAttribute("fill", "#f5f5f5");
         bg.setAttribute("fill", "#e6e6fa");
+        //bg.setAttribute("fill", "red");
         bg.setAttribute("rx", style["border-radius"]);
         bg.setAttribute("stroke-width", style["border-top-width"]);
         bg.setAttribute("stroke", style["border-top-color"]);
@@ -960,7 +976,7 @@ Keyboard.prototype = {
     _compositionend(e) {
         console.log("_composition end");
     },
-
+/*
     _keypress(e) {
         const key = this._getKey(e);
 
@@ -976,12 +992,46 @@ Keyboard.prototype = {
         this.textEditor.selection.deleteChars();
         this.textEditor.cursor.insertChar(key);
     },
-
+*/
     _keydown(e) {
+        if (e.isComposing || e.key === 'Process' || e.keyCode === 229) {
+            // IME入力中
+               console.log("IME")
+	       return;
+         } else {
+            // IME入力中でない
+               console.log("---")
+         }
+
         if (this.textEditor.cursor.display === false && this.textEditor.selection.from === false)
             return;
 
         const key = this._getKey(e);
+
+    	var keyCode = false;
+
+	if (e) event = e;
+
+	if (event) {
+   	     if (event.keyCode) {
+			keyCode = event.keyCode;
+	     } else if (event.which) {
+			keyCode = event.which;
+	     }
+	}
+        
+        if ( ( 48 < keyCode &&  keyCode < 192 ) || 
+		keyCode == 32
+        ) {
+           this.textEditor.selection.deleteChars();
+           this.textEditor.cursor.insertChar(key);
+	}
+/*
+        if (this.textEditor.cursor.display === false && this.textEditor.selection.from === false)
+            return;
+
+        const key = this._getKey(e);
+*/
         if (!this.keys.includes(key)) return;
 
         e.preventDefault();
@@ -1184,21 +1234,21 @@ inputField.addEventListener('keydown', (e) => {
 
         const fcts = {
             keydown: this._keydown.bind(this),
-            keypress: this._keypress.bind(this),
+            //keypress: this._keypress.bind(this),
             compositionstart: this._compositionstart.bind(this), //GUSA
             compositionupdate: this._compositionupdate.bind(this),
             compositionend: this._compositionend.bind(this),
         };
 
         new JSYG(document)[0].addEventListener("keydown", fcts["keydown"]);
-        new JSYG(document)[0].addEventListener("keypress", fcts["keypress"]);
+        //new JSYG(document)[0].addEventListener("keypress", fcts["keypress"]);
         new JSYG(document)[0].addEventListener("compositionstart", fcts["compositionstart"]);
         new JSYG(document)[0].addEventListener("compositionupdate", fcts["compositionupdate"]);
         new JSYG(document)[0].addEventListener("compositionend", fcts["compositionend"]);
 
         this.disable = function () {
             new JSYG(document)[0].removeEventListener("keydown", fcts["keydown"]);
-            new JSYG(document)[0].removeEventListener("keypress", fcts["keypress"]);
+            //new JSYG(document)[0].removeEventListener("keypress", fcts["keypress"]);
             new JSYG(document)[0].removeEventListener("compositionstart", fcts["compositionstart"]);
             new JSYG(document)[0].removeEventListener(
                 "compositionupdate",

@@ -2,14 +2,14 @@ svg g.textBox path {
    /*fill:#bbb;*/
    fill:#4169E1;
    fill-opacity:0.3;
-   /*
+   
    stroke:black;
    stroke-width:0.2;
    stroke-dasharray:2,2;
    */
 }
 svg g.textBox rect.textSelection {
-   fill:orange;
+   fill:green;
    fill-opacity:0.5;
 }
 svg g.textBox line.cursor {
